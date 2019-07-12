@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Ketchup</title>
+  <script src="https://kit.fontawesome.com/01b4af962b.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <style>
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      border: 1px solid rgb(51, 54, 56);
+      border-radius: 10px;
+    }
+    img:hover {
+      background-color:white;
+      opacity:0.3;
+      transition: 500ms;
+      transform: scale(1.03);
+    }
+    #playBar {
+      background: rgb(51, 54, 56);
+      position: fixed;
+      bottom: 0;
+      width: 100vw;
+      height: 80px;
+    }  
+    body {
+      overscroll-behavior-y: none;
+      background-color: rgb(3, 41, 64);
+    }
+    .side-link, .album-songs-title, .album-songs-title:hover {
+      position: relative;
+      text-decoration:none;
+      color: white;
+    }
+    #player {
+      position: fixed;
+      bottom: 90px;
+      left: 15px;
+      z-index: 999;
+    }
+    #player:hover {
+      width: 450px;
+      height: 270px;
+      transition: 80ms;
+    }
+    .icon {
+      color: white;
+      margin: 0 20px;
+    }
+    .icon:hover {
+      color: rgb(245, 231, 40);
+      transition: 300ms;
+    }
+    #play {
+      font-size: 35px;
+    }
+    #play:hover {
+      transform: scale(1.07);
+    }
+    .play-icon {
+      height: 100%;
+      display:  flex;
+      align-items: center;
+      justify-content:  center;
+    }
+    #sidebar {
+      background: rgb(25, 28, 31);
+      position: fixed;
+      left: 0;
+      width: 230px;
+      height: 100vh;
+      color: white;
+    }
+    .side-title {
+      font-size: 32px;
+      font-family: Arial, Helvetica, sans-serif;
+      color: white;
+    }
+    .side-content {
+      color: rgb(231, 231, 233);
+      font-size: 20px;
+    }
+    .side-link:hover {
+      text-decoration: none;
+      color: white;
+      transition: 300ms;
+      opacity:0.8;
+    }
+    .side-link::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -10px;
+      width: 100%;
+      height: 2px;
+      background-color: rgb(245, 231, 40);
+      transform-origin: center;
+      transform: translate(-50%, 0) scaleX(0);
+      transition: transform 0.3s ease-in-out;
+    }
+    .side-link:hover::before {
+      transform: translate(-50%, 0) scaleX(1);
+    }
+    #content {
+      margin-left: 275px;
+      margin-right: 40px;
+      margin-bottom: 100px;
+    }
+    image {
+      max-width: 100px;
+      max-height: 100px;
+    }
+    h2 {
+      color: white;
+      font-family: "微軟正黑體";
+    }
+    .songinfo1 {
+      font-size: 18px;
+      font-family: "微軟正黑體";
+      color: white;
+      margin-bottom: 0;
+      margin-top: 7px;
+    }
+    .songinfo2{
+      font-size: 15px;
+      color: rgb(165, 161, 161);
+      font-family: "微軟正黑體";
+    }
+    .songimg {
+      max-width: 80px;
+      max-height: 80px;
+    }
+    .songtotal:hover {
+      cursor:pointer;
+      text-decoration:none;
+      background-color:black;
+      opacity:0.7;
+      transition: 500ms;
+    }
+    .songlink:hover {
+      text-decoration:none;
+    }
+    .songimg {
+      display: flex;
+      top:0;
+    }
+    .albumbtn {
+      margin: 40px 0;
+    }
+    .btn {
+      width: 300px;
+      border-radius: 20px;
+      padding: 5px;
+    }
+    .fa-pause-circle:before {
+      color: rgb(245, 231, 40);
+    }
+    .active {
+      color: rgb(245, 231, 40);
+    }
+    .stochastic {
+      color: rgb(245, 231, 40);
+    }
+    #back {
+      display:none;
+      padding-left: 15px;
+    }
+    #backLink {
+      color: white;
+      font-family: "微軟正黑體";
+      text-decoration:none;
+      font-size: 16px;
+    }
+    .search {
+      width: 200px;
+    }
+
+    .search-hide {
+      display: none;
+    }
+
+    .searchbtn {
+      width: 50px;
+    }
+    @media screen and (max-width: 628px) and (min-width: 320px){
+      #sidebar {
+        display: none;
+      }
+      #content {
+        margin-left: 30px;
+      }
+      #barbtn {
+        display:none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="sidebar">
+    <div class="pt-5 pb-4 px-4 side-title">
+      <a class="side-link" href="index.html"><i style="font-size: 28px" class="fas fa-music"></i>
+      <span class="pl-2">Ketchup</span></a>
+    </div>
+    <div class="px-4 mb-3 mt-2 side-content">
+      <a class="side-link" href="index.html"><i class="fas fa-home"></i>
+      <span class="pl-3">首頁</span></a></div>
+    <div class="input-group mt-3 mb-3 ml-4 search-hide search">
+      <input type="text" class="form-control" placeholder="請輸入歌名" aria-label="請輸入歌名" aria-describedby="button-addon2">
+      <div class="input-group-append searchbtn">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2">搜尋</button>
+      </div>
+    </div>
+  </div>
+
+  <main role="main">
+    <div id="content" class="album py-5">
+      <div id="content2" class="container">
+        <h2 class="pt-2 pb-2">精選 KKBOX 最新排行日/週榜 🔥</h2>
+        <div class="row" id="album">
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div id="player"></div>
+    <div id="playBar">
+      <div id="barbtn" class="play-icon">
+        <i id="random" class="icon fas fa-random"></i>
+        <i id="prev" class="icon fas fa-step-backward"></i>
+        <i id="play" class="icon far fa-play-circle"></i>
+        <i id="next" class="icon fas fa-step-forward"></i>
+        <i id="repeat" class="icon fas fa-sync-alt"></i>
+      </div>
+    </div>
+  </footer>
+
+<script>
+  document.getElementById('player').style.display = 'none';
+  var navContent = document.getElementById('content');
+  var content = document.getElementById("content2");
+  var album = document.getElementById("album");
+  var openUrl= "https://safe-scrubland-85558.herokuapp.com/kkbox/charts?territory=TW";
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET',openUrl,true);  
+  xhr.send(null);
+  xhr.onreadystatechange = function showAlbums () {
+    if(this.readyState === 4 && this.status === 200){
+      var data = JSON.parse(this.responseText);
+      for ( var i = 0; i < data['data'].length ; i++) {
+        var title = data["data"][i]["title"];
+        var imageUrl = data["data"][i]['images'][0]['url'];
+        var node = document.createElement("DIV");
+        var image = document.createElement("IMG");
+        var link = document.createElement("A");
+        var chartsName = document.createElement("DIV");
+        var IDUrl = data["data"][i]['id'];
+        node.setAttribute("class", "col-xs-1 col-sm-1 col-md-3 px-2 py-4");
+        link.setAttribute("href", "javascript:showCharts(\""+IDUrl+"\",\""+imageUrl+"\")");
+        link.setAttribute("class", "album-songs-title");
+        image.setAttribute("src", imageUrl);
+        chartsName.setAttribute("class", "d-flex justify-content-center align-items-center mt-2");
+        chartsName.innerHTML = title;
+        node.appendChild(link);
+        link.appendChild(image);
+        link.appendChild(chartsName);
+        album.appendChild(node);
+      }
+      window.history.pushState(content.innerHTML, null, null);
+    }
+  }
+
+  function showCharts(IDUrl, imageUrl) {
+    let openUrl= "https://safe-scrubland-85558.herokuapp.com/kkbox/charts/" + IDUrl + "?territory=TW";
+    var clientID = new XMLHttpRequest();
+    var album = document.getElementById("album");
+    clientID.open('GET',openUrl,true);
+    clientID.send(null);
+    clientID.onreadystatechange = function(){
+      if(this.readyState === 4 && this.status === 200){
+        var datas = JSON.parse(this.responseText);
+        album.innerHTML = '';
+        window.scrollTo(0, 0);
+        var title = document.querySelector("#content > div > h2");
+        var albumtitle = datas["title"];
+        var albumimgDIV = document.createElement("DIV");
+        var albumIMG = document.createElement("IMG");
+        var songtotal = document.createElement("DIV");
+        var button = document.createElement("BUTTON");
+        var buttonDIV = document.createElement("DIV");
+        buttonDIV.setAttribute("class", "albumbtn");
+        button.setAttribute("class", "col-sm-12 col-md-12 btn btn-warning btn");
+        button.setAttribute("type", "button");
+        button.innerHTML = "全部播放";
+        button.setAttribute("onclick", "playSong(0)");
+        albumimgDIV.setAttribute("class", "col-sm-1 col-md-4 pt-3 albumimg");
+        songtotal.setAttribute("class", "col-sm-11 col-md-8 pt-3");
+        albumIMG.setAttribute("src", imageUrl);
+        album.appendChild(albumimgDIV);
+        albumimgDIV.appendChild(albumIMG);
+        albumimgDIV.appendChild(buttonDIV);
+        buttonDIV.appendChild(button);
+        title.innerHTML = albumtitle;
+        for ( var i = 0; i < datas["tracks"]["data"].length; i++) {
+          var songimgDIV = document.createElement("DIV");
+          var songinfoDIV = document.createElement("DIV");
+          var songtotalrow = document.createElement("DIV");
+          var songlink = document.createElement("A");
+          var songimgIMG = document.createElement("IMG");
+          var songinfoP = document.createElement("H2");
+          var songinfoP2 = document.createElement("SPAN");
+          var link = document.createElement("A");
+          var songimg = datas["tracks"]["data"][i]["album"]["images"][0]["url"];
+          var songinfo = datas["tracks"]["data"][i]["name"];
+          var artistinfo = datas["tracks"]["data"][i]["album"]["artist"]["name"];
+          songtotalrow.setAttribute("class", "row songtotal");
+          songimgDIV.setAttribute("class", "my-1 col-sm-1 col-md-2 songimg");
+          songinfoDIV.setAttribute("class", "my-1 col-sm-11 col-md-10 songinfo");
+          songinfoP.setAttribute("class", "songinfo1");
+          songinfoP2.setAttribute("class", "songinfo2");
+          songimgIMG.setAttribute("src", songimg);
+          songlink.setAttribute("href", "javascript:playYoutubeViedo(\""+songinfo+"\",\""+artistinfo+"\")");
+          songlink.setAttribute("class", "songlink")
+          link.setAttribute("href", "javascript:playYoutubeViedo(\""+songinfo+"\",\""+artistinfo+"\")");
+          songinfoP.innerHTML = songinfo;
+          songinfoP2.innerHTML = artistinfo; 
+          songimgDIV.appendChild(link);
+          songinfoDIV.appendChild(songlink);
+          link.appendChild(songimgIMG);
+          songlink.appendChild(songinfoP);
+          songlink.appendChild(songinfoP2);
+          songtotal.appendChild(songtotalrow);
+          songtotalrow.appendChild(songimgDIV);
+          songtotalrow.appendChild(songinfoDIV);
+          album.appendChild(songtotal);
+        }
+        window.history.pushState(content.innerHTML, null, null);
+        tracks = document.querySelector("#album > div.col-sm-11.col-md-8.pt-3").children;
+      }
+    }   
+  }
+
+  var player;
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      height: '150',
+      width: '200',
+      videoId: ' ',
+      playerVars: {
+      'controls': 1,
+      'rel': 0,
+      'modestbranding': 1,    
+      },
+      events: {
+        'onReady': onPlayerReady,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+  }
+
+  function onPlayerReady(event) {
+    event.target.playVideo();
+  }
+
+  function onPlayerStateChange(event) {
+    if(event['data'] != -1) {
+      document.getElementById('player').style.display = 'inline';
+    }
+
+    if(event['data'] == 1) {
+      let playbtn = document.getElementById('play');
+      playbtn.classList.remove('fa-play-circle');
+      playbtn.classList.add('fa-pause-circle');
+    } else if (event['data'] == 2 || event['data'] == 0) {
+      playbtn.classList.remove('fa-pause-circle');
+      playbtn.classList.add('fa-play-circle');
+    }
+
+    if(event['data'] == 0) {
+      nextSong();
+    }
+  }
+
+  function playYoutubeViedo(songinfo, artistinfo) {
+    let url = 'https://safe-scrubland-85558.herokuapp.com/youtube/search?q=' + songinfo + ' ' + artistinfo + '&type=video&part=snippet';
+    var ytID = new XMLHttpRequest();
+    ytID.open('GET',url,true);
+    ytID.setRequestHeader("accept", "application/json");
+    ytID.send(null);
+    ytID.onreadystatechange = function() {
+      if(this.readyState === 4 && this.status === 200){
+        var data = JSON.parse(this.responseText);
+        var videoId = data["items"][0]["id"]["videoId"];
+        player.loadVideoById({videoId:videoId,
+                              suggestedQuality:String});
+      }
+    }
+    for (var i = 0; i < tracks.length; i++) {
+      let songName = tracks[i].querySelector(".songinfo > a > .songinfo1").innerHTML;
+      if ( songinfo == songName) {
+        currentSong = i;
+      }
+    }
+  }
+
+  var playbtn = document.querySelector("#play");
+  playbtn.addEventListener('click', playVideo);
+  function playVideo() {
+    var state = player.getPlayerState();
+    switch (state) {
+      case 1:
+        player.pauseVideo();
+        break;
+      case 2:
+        player.playVideo();
+        break;
+    }
+  }
+  
+  function stopVideo() {
+    player.stopVideo();
+  }
+  
+  var nextbtn = document.querySelector("#next");
+  var prevbtn = document.querySelector("#prev");
+  var repeatbtn = document.querySelector("#repeat");
+  var randombtn = document.querySelector("#random");
+  var currentSong = 0;
+  var tracks = [];
+  var repeatable = false;
+  var stochastic = false;
+
+  function playSong(i) {
+    eval(tracks[i].querySelector(".col-md-10 > a").href);
+  }
+
+  nextbtn.addEventListener('click', nextSong);
+  function nextSong() {
+    if (stochastic) {
+      let randnum = Math.floor(Math.random()*(tracks.length-1));
+      playSong((currentSong == randnum) ? Math.floor(Math.random()*(tracks.length-1)) : randnum);
+    }
+    if (currentSong != tracks.length-1) {
+      playSong(++currentSong);
+    } else if (repeatable) {
+      playSong(0);
+    } else {
+      stopVideo();
+    }
+  }
+  
+  prevbtn.addEventListener('click', prevSong);
+  function prevSong() {
+    if (stochastic) {
+      let randnum = Math.floor(Math.random()*(tracks.length-1));
+      playSong((currentSong == randnum) ? Math.floor(Math.random()*(tracks.length-1)) : randnum);
+    }
+    if (currentSong != 0) {
+      playSong(--currentSong);
+    } else {
+      currentSong = tracks.length;
+      playSong(--currentSong);
+    }
+  }
+
+  repeatbtn.addEventListener('click', repeatPlay);
+  function repeatPlay() {
+    repeatbtn.classList.toggle('active');
+    if (repeatbtn.classList.contains('active')) {
+      repeatable = true;
+    } else {
+      repeatable = false;
+    }
+  }
+
+  randombtn.addEventListener('click', randomPlay);
+  function randomPlay() {
+    randombtn.classList.toggle('stochastic');
+    if (randombtn.classList.contains('stochastic')) {
+      stochastic = true;
+    } else {
+      stochastic = false;
+    }
+  }
+
+  function searchText() {
+    var search = document.querySelector('.search');
+    search.classList.remove('search-hide');
+    document.querySelector('.search > input').style.width = '125px';
+  }
+
+  window.onpopstate = function () {
+    content.innerHTML = history.state;
+  }
+</script>        
+</body>
+</html>
