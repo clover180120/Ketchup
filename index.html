@@ -39,7 +39,7 @@
       overscroll-behavior-y: none;
       background-color: rgb(3, 41, 64);
     }
-    .side-link, .album-songs-title, .album-songs-title:hover {
+    .side-link, .album-songs-title, .album-songs-title:hover, .chartName {
       position: relative;
       text-decoration:none;
       color: white;
@@ -92,7 +92,7 @@
       color: rgb(231, 231, 233);
       font-size: 20px;
     }
-    .side-link:hover {
+    .side-link:hover, .chartName:hover {
       text-decoration: none;
       color: white;
       transition: 300ms;
@@ -110,7 +110,19 @@
       transform: translate(-50%, 0) scaleX(0);
       transition: transform 0.3s ease-in-out;
     }
-    .side-link:hover::before {
+    .chartName::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -8px;
+      width: 7rem;
+      height: 2px;
+      background-color: rgb(245, 231, 40);
+      transform-origin: center;
+      transform: translate(-50%, 0) scaleX(0);
+      transition: transform 0.3s ease-in-out;
+    }
+    .side-link:hover::before, .chartName:hover::before {
       transform: translate(-50%, 0) scaleX(1);
     }
     #content {
@@ -217,11 +229,20 @@
     <div class="px-4 mb-3 mt-2 side-content">
       <a class="side-link" href="index.html"><i class="fas fa-home"></i>
       <span class="pl-3">首頁</span></a></div>
+    <div class="px-4 side-content">
+      <a class="side-link" href="javascript:searchText()"><i style="font-size: 22.25px"class="fas fa-search"></i>
+      <span class="pl-3">搜尋</span></a>
+    </div>
     <div class="input-group mt-3 mb-3 ml-4 search-hide search">
-      <input type="text" class="form-control" placeholder="請輸入歌名" aria-label="請輸入歌名" aria-describedby="button-addon2">
-      <div class="input-group-append searchbtn">
+    <form>
+      <input type="text" class="form-control" placeholder="請輸入歌名" aria-label="請輸入歌名" aria-describedby="button-addon2" id="filedSearch" name="songSearch">
+      <input type="submit" class="searchbtn btn btn-outline-secondary" id="utton-addon2" value="搜尋">
+    </form>
+      <!--
+        <div class="input-group-append searchbtn">
         <button class="btn btn-outline-secondary" type="button" id="button-addon2">搜尋</button>
-      </div>
+        </div>
+      -->
     </div>
   </div>
 
@@ -272,7 +293,7 @@
         link.setAttribute("href", "javascript:showCharts(\""+IDUrl+"\",\""+imageUrl+"\")");
         link.setAttribute("class", "album-songs-title");
         image.setAttribute("src", imageUrl);
-        chartsName.setAttribute("class", "d-flex justify-content-center align-items-center mt-2");
+        chartsName.setAttribute("class", "chartName d-flex justify-content-center align-items-center mt-2");
         chartsName.innerHTML = title;
         node.appendChild(link);
         link.appendChild(image);
@@ -284,7 +305,7 @@
   }
 
   function showCharts(IDUrl, imageUrl) {
-    let openUrl= "https://peaceful-earth-65171.herokuapp.com/kkbox/charts/" + IDUrl + "?territory=TW";
+    var openUrl = "https://peaceful-earth-65171.herokuapp.com/kkbox/charts/" + IDUrl + "?territory=TW";
     var clientID = new XMLHttpRequest();
     var album = document.getElementById("album");
     clientID.open('GET',openUrl,true);
@@ -400,7 +421,7 @@
   }
 
   function playYoutubeViedo(songinfo, artistinfo) {
-    let url = 'https://peaceful-earth-65171.herokuapp.com/youtube/search?q=' + songinfo + ' ' + artistinfo + '&type=video&part=snippet';
+    var url = 'https://peaceful-earth-65171.herokuapp.com/youtube/search?q=' + songinfo + ' ' + artistinfo + '&type=video&part=snippet';
     var ytID = new XMLHttpRequest();
     ytID.open('GET',url,true);
     ytID.setRequestHeader("accept", "application/json");
