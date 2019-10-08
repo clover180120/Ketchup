@@ -14,9 +14,44 @@
 
   gtag('config', 'UA-144818142-1');
   </script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
   <script src="https://kit.fontawesome.com/01b4af962b.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
   <style>
+    .loadingPage {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -50px;
+      margin-top: -450px;
+      z-index: 999;
+      overflow: hidden;
+    }
+    .load-wrapp {
+      float: left;
+      padding: 400px 20px 20px;
+      border-radius: 5px;
+      text-align: center;
+      background-color: #05050500;
+      opacity: 0.5;
+    }
+    .load-wrapp:last-child {margin-right: 0;}
+    .line {
+      display: inline-block;
+      width: 20px;
+      height: 35px;
+      border-radius: 15px;
+      background-color: #4b9cdb;
+    }
+    .load-1 .line:nth-last-child(1) {animation: loadingA 1.5s 1s infinite;}
+    .load-1 .line:nth-last-child(2) {animation: loadingA 1.5s .5s infinite;}
+    .load-1 .line:nth-last-child(3) {animation: loadingA 1.5s 0s infinite;}
+    
+    @keyframes loadingA {
+      0 {height: 35px;}
+      50% {height: 55px;}
+      100% {height: 35px;}
+    }
     img {
       max-width: 100%;
       max-height: 100%;
@@ -219,6 +254,15 @@
 </head>
 
 <body>
+  <div id="loading" class="loadingPage">
+    <div class="load-wrapp">
+      <div class="load-1">
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+      </div>
+    </div>
+  </div>
   <div id="sidebar">
     <div class="pt-5 pb-4 px-4 side-title">
       <a class="side-link" href="index.html"><i style="font-size: 28px" class="fas fa-music"></i>
@@ -284,20 +328,22 @@
         link.appendChild(chartsName);
         album.appendChild(node);
       }
+      $('#loading').fadeOut(500);
       window.history.pushState(content.innerHTML, null, null);
     }
   }
 
   function showCharts(IDUrl, imageUrl) {
+    $('#loading').show();
     var openUrl = "https://shrouded-ocean-69872.herokuapp.com/kkbox/charts/" + IDUrl + "?territory=TW";
     var clientID = new XMLHttpRequest();
     var album = document.getElementById("album");
+    album.innerHTML = '';
     clientID.open('GET',openUrl,true);
     clientID.send(null);
     clientID.onreadystatechange = function(){
       if(this.readyState === 4 && this.status === 200){
         var datas = JSON.parse(this.responseText);
-        album.innerHTML = '';
         window.scrollTo(0, 0);
         var title = document.querySelector("#content > div > h2");
         var albumtitle = datas["title"];
@@ -352,6 +398,7 @@
           songtotalrow.appendChild(songinfoDIV);
           album.appendChild(songtotal);
         }
+        $('#loading').fadeOut(500);
         window.history.pushState(content.innerHTML, null, null);
         tracks = document.querySelector("#album > div.col-sm-11.col-md-8.pt-3").children;
       }
@@ -515,6 +562,6 @@
   window.onpopstate = function () {
     content.innerHTML = history.state;
   }
-</script>        
+</script>     
 </body>
 </html>
