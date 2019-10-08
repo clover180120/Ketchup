@@ -178,8 +178,10 @@
       font-size: 18px;
       font-family: "微軟正黑體";
       color: white;
-      margin-bottom: 0;
-      margin-top: 7px;
+      margin-bottom: 7px;
+    }
+    .songtotal {
+      margin: 7px 0;
     }
     .songinfo2{
       font-size: 15px;
@@ -243,6 +245,12 @@
       width: 50px;
     }
     @media screen and (max-width: 628px) and (min-width: 320px){
+      .songinfo1 {
+        font-size: 13pt;
+      }
+      .songinfo2 {
+        font-size: 10pt;
+      }
       #sidebar {
         display: none;
       }
@@ -378,8 +386,8 @@
           var songinfo = datas["tracks"]["data"][i]["name"];
           var artistinfo = datas["tracks"]["data"][i]["album"]["artist"]["name"];
           songtotalrow.setAttribute("class", "row songtotal");
-          songimgDIV.setAttribute("class", "my-1 col-sm-1 col-md-2 songimg");
-          songinfoDIV.setAttribute("class", "my-1 col-sm-11 col-md-10 songinfo");
+          songimgDIV.setAttribute("class", "my-1 col-sm-1 col-md-2 col-4 songimg");
+          songinfoDIV.setAttribute("class", "my-1 col-sm-11 col-md-10 col-8 songinfo");
           songinfoP.setAttribute("class", "songinfo1");
           songinfoP2.setAttribute("class", "songinfo2");
           songimgIMG.setAttribute("src", songimg);
