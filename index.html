@@ -64,6 +64,11 @@
       transition: 500ms;
       transform: scale(1.03);
     }
+    .chartIMG {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
     #playBar {
       background: rgb(51, 54, 56);
       position: fixed;
@@ -328,10 +333,11 @@
         var link = document.createElement("A");
         var chartsName = document.createElement("DIV");
         var IDUrl = data["data"][i]['id'];
-        node.setAttribute("class", "col-xs-1 col-sm-1 col-md-3 px-2 py-4");
+        node.setAttribute("class", "col-12 col-sm-12 col-md-6 col-lg-3 px-2 py-4");
         link.setAttribute("href", "javascript:showCharts(\""+IDUrl+"\",\""+imageUrl+"\")");
         link.setAttribute("class", "album-songs-title");
         image.setAttribute("src", imageUrl);
+        image.setAttribute("class", "chartIMG");
         chartsName.setAttribute("class", "chartName d-flex justify-content-center align-items-center mt-2");
         chartsName.innerHTML = title;
         node.appendChild(link);
