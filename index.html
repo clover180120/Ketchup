@@ -370,12 +370,12 @@
         var button = document.createElement("BUTTON");
         var buttonDIV = document.createElement("DIV");
         buttonDIV.setAttribute("class", "albumbtn");
-        button.setAttribute("class", "col-sm-12 col-md-12 btn btn-warning btn");
+        button.setAttribute("class", "col-12 col-sm-12 col-md-12 btn btn-warning btn");
         button.setAttribute("type", "button");
         button.innerHTML = "全部播放";
         button.setAttribute("onclick", "playSong(0)");
-        albumimgDIV.setAttribute("class", "col-sm-1 col-md-4 pt-3 pl-3 albumimg");
-        songtotal.setAttribute("class", "col-sm-11 col-md-8 pt-3");
+        albumimgDIV.setAttribute("class", "col-sm-12 col-md-4 pt-3 pl-3 albumimg");
+        songtotal.setAttribute("class", "col-sm-8 col-md-8 pt-3");
         albumIMG.setAttribute("src", imageUrl);
         album.appendChild(albumimgDIV);
         albumimgDIV.appendChild(albumIMG);
@@ -395,8 +395,8 @@
           var songinfo = datas["tracks"]["data"][i]["name"];
           var artistinfo = datas["tracks"]["data"][i]["album"]["artist"]["name"];
           songtotalrow.setAttribute("class", "row songtotal");
-          songimgDIV.setAttribute("class", "my-1 col-sm-1 col-md-2 col-4 songimg");
-          songinfoDIV.setAttribute("class", "my-1 col-sm-11 col-md-10 col-8 songinfo");
+          songimgDIV.setAttribute("class", "my-1 col-sm-3 col-md-8 col-4 songimg");
+          songinfoDIV.setAttribute("class", "my-1 col-sm-9 col-md-10 col-8 songinfo");
           songinfoP.setAttribute("class", "songinfo1");
           songinfoP2.setAttribute("class", "songinfo2");
           songimgIMG.setAttribute("src", songimg);
