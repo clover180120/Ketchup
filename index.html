@@ -260,7 +260,7 @@
   var navContent = document.getElementById('content');
   var content = document.getElementById("content2");
   var album = document.getElementById("album");
-  var openUrl= "https://peaceful-earth-65171.herokuapp.com/kkbox/charts?territory=TW";
+  var openUrl= "https://shrouded-ocean-69872.herokuapp.com/kkbox/charts?territory=TW";
   var xhr = new XMLHttpRequest();
   xhr.open('GET',openUrl,true);  
   xhr.send(null);
@@ -291,7 +291,7 @@
   }
 
   function showCharts(IDUrl, imageUrl) {
-    var openUrl = "https://peaceful-earth-65171.herokuapp.com/kkbox/charts/" + IDUrl + "?territory=TW";
+    var openUrl = "https://shrouded-ocean-69872.herokuapp.com/kkbox/charts/" + IDUrl + "?territory=TW";
     var clientID = new XMLHttpRequest();
     var album = document.getElementById("album");
     clientID.open('GET',openUrl,true);
@@ -407,7 +407,7 @@
   }
 
   function playYoutubeViedo(songinfo, artistinfo) {
-    var url = 'https://peaceful-earth-65171.herokuapp.com/youtube/search?q=' + songinfo + ' ' + artistinfo + '&type=video&part=snippet';
+    var url = 'https://shrouded-ocean-69872.herokuapp.com/youtube/search?q=' + songinfo + ' ' + artistinfo + '&type=video&part=snippet';
     var ytID = new XMLHttpRequest();
     ytID.open('GET',url,true);
     ytID.setRequestHeader("accept", "application/json");
