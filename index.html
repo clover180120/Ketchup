@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Ketchup</title>
+  <link rel="shortcut icon" href="images/ketchup_icon.ico"/>
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-144818142-1"></script>
   <script>
   window.dataLayer = window.dataLayer || [];
@@ -13,9 +14,44 @@
 
   gtag('config', 'UA-144818142-1');
   </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://kit.fontawesome.com/01b4af962b.js"></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
   <style>
+    .loadingPage {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -50px;
+      margin-top: -450px;
+      z-index: 999;
+      overflow: hidden;
+    }
+    .load-wrapp {
+      float: left;
+      padding: 400px 20px 20px;
+      border-radius: 5px;
+      text-align: center;
+      background-color: #05050500;
+      opacity: 0.5;
+    }
+    .load-wrapp:last-child {margin-right: 0;}
+    .line {
+      display: inline-block;
+      width: 20px;
+      height: 35px;
+      border-radius: 15px;
+      background-color: #4b9cdb;
+    }
+    .load-1 .line:nth-last-child(1) {animation: loadingA 1.5s 1s infinite;}
+    .load-1 .line:nth-last-child(2) {animation: loadingA 1.5s .5s infinite;}
+    .load-1 .line:nth-last-child(3) {animation: loadingA 1.5s 0s infinite;}
+    
+    @keyframes loadingA {
+      0 {height: 35px;}
+      50% {height: 55px;}
+      100% {height: 35px;}
+    }
     img {
       max-width: 100%;
       max-height: 100%;
@@ -27,6 +63,11 @@
       opacity:0.3;
       transition: 500ms;
       transform: scale(1.03);
+    }
+    .chartIMG {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
     #playBar {
       background: rgb(51, 54, 56);
@@ -142,8 +183,10 @@
       font-size: 18px;
       font-family: "微軟正黑體";
       color: white;
-      margin-bottom: 0;
-      margin-top: 7px;
+      margin-bottom: 7px;
+    }
+    .songtotal {
+      margin: 7px 0;
     }
     .songinfo2{
       font-size: 15px;
@@ -207,20 +250,35 @@
       width: 50px;
     }
     @media screen and (max-width: 628px) and (min-width: 320px){
+      .songinfo1 {
+        font-size: 13pt;
+      }
+      .songinfo2 {
+        font-size: 10pt;
+      }
       #sidebar {
         display: none;
       }
       #content {
-        margin-left: 30px;
+        margin-left: 35px;
       }
-      #barbtn {
-        display:none;
+      .btn {
+        width: 300px;
       }
     }
   </style>
 </head>
 
 <body>
+  <div id="loading" class="loadingPage">
+    <div class="load-wrapp">
+      <div class="load-1">
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+      </div>
+    </div>
+  </div>
   <div id="sidebar">
     <div class="pt-5 pb-4 px-4 side-title">
       <a class="side-link" href="index.html"><i style="font-size: 28px" class="fas fa-music"></i>
@@ -275,10 +333,11 @@
         var link = document.createElement("A");
         var chartsName = document.createElement("DIV");
         var IDUrl = data["data"][i]['id'];
-        node.setAttribute("class", "col-xs-1 col-sm-1 col-md-3 px-2 py-4");
+        node.setAttribute("class", "col-12 col-sm-12 col-md-6 col-lg-3 px-2 py-4");
         link.setAttribute("href", "javascript:showCharts(\""+IDUrl+"\",\""+imageUrl+"\")");
         link.setAttribute("class", "album-songs-title");
         image.setAttribute("src", imageUrl);
+        image.setAttribute("class", "chartIMG");
         chartsName.setAttribute("class", "chartName d-flex justify-content-center align-items-center mt-2");
         chartsName.innerHTML = title;
         node.appendChild(link);
@@ -286,20 +345,22 @@
         link.appendChild(chartsName);
         album.appendChild(node);
       }
+      $('#loading').fadeOut(500);
       window.history.pushState(content.innerHTML, null, null);
     }
   }
 
   function showCharts(IDUrl, imageUrl) {
+    $('#loading').show();
     var openUrl = "https://shrouded-ocean-69872.herokuapp.com/kkbox/charts/" + IDUrl + "?territory=TW";
     var clientID = new XMLHttpRequest();
     var album = document.getElementById("album");
+    album.innerHTML = '';
     clientID.open('GET',openUrl,true);
     clientID.send(null);
     clientID.onreadystatechange = function(){
       if(this.readyState === 4 && this.status === 200){
         var datas = JSON.parse(this.responseText);
-        album.innerHTML = '';
         window.scrollTo(0, 0);
         var title = document.querySelector("#content > div > h2");
         var albumtitle = datas["title"];
@@ -309,12 +370,12 @@
         var button = document.createElement("BUTTON");
         var buttonDIV = document.createElement("DIV");
         buttonDIV.setAttribute("class", "albumbtn");
-        button.setAttribute("class", "col-sm-12 col-md-12 btn btn-warning btn");
+        button.setAttribute("class", "col-12 col-sm-12 col-md-12 btn btn-warning btn");
         button.setAttribute("type", "button");
         button.innerHTML = "全部播放";
         button.setAttribute("onclick", "playSong(0)");
-        albumimgDIV.setAttribute("class", "col-sm-1 col-md-4 pt-3 albumimg");
-        songtotal.setAttribute("class", "col-sm-11 col-md-8 pt-3");
+        albumimgDIV.setAttribute("class", "col-sm-12 col-md-4 pt-3 pl-3 albumimg");
+        songtotal.setAttribute("class", "col-sm-8 col-md-8 pt-3");
         albumIMG.setAttribute("src", imageUrl);
         album.appendChild(albumimgDIV);
         albumimgDIV.appendChild(albumIMG);
@@ -334,8 +395,8 @@
           var songinfo = datas["tracks"]["data"][i]["name"];
           var artistinfo = datas["tracks"]["data"][i]["album"]["artist"]["name"];
           songtotalrow.setAttribute("class", "row songtotal");
-          songimgDIV.setAttribute("class", "my-1 col-sm-1 col-md-2 songimg");
-          songinfoDIV.setAttribute("class", "my-1 col-sm-11 col-md-10 songinfo");
+          songimgDIV.setAttribute("class", "my-1 col-sm-3 col-md-8 col-4 songimg");
+          songinfoDIV.setAttribute("class", "my-1 col-sm-9 col-md-10 col-8 songinfo");
           songinfoP.setAttribute("class", "songinfo1");
           songinfoP2.setAttribute("class", "songinfo2");
           songimgIMG.setAttribute("src", songimg);
@@ -354,8 +415,9 @@
           songtotalrow.appendChild(songinfoDIV);
           album.appendChild(songtotal);
         }
+        $('#loading').fadeOut(500);
         window.history.pushState(content.innerHTML, null, null);
-        tracks = document.querySelector("#album > div.col-sm-11.col-md-8.pt-3").children;
+        tracks = document.querySelector("#album > div.col-sm-8.col-md-8.pt-3").children;
       }
     }   
   }
@@ -517,6 +579,6 @@
   window.onpopstate = function () {
     content.innerHTML = history.state;
   }
-</script>        
+</script>     
 </body>
 </html>
