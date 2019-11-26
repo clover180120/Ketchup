@@ -1,0 +1,248 @@
+.loadingPage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -50px;
+    margin-top: -450px;
+    z-index: 999;
+    overflow: hidden;
+  }
+  .load-wrapp {
+    float: left;
+    padding: 400px 20px 20px;
+    border-radius: 5px;
+    text-align: center;
+    background-color: #05050500;
+    opacity: 0.5;
+  }
+  .load-wrapp:last-child {margin-right: 0;}
+  .line {
+    display: inline-block;
+    width: 20px;
+    height: 35px;
+    border-radius: 15px;
+    background-color: #4b9cdb;
+  }
+  .load-1 .line:nth-last-child(1) {animation: loadingA 1.5s 1s infinite;}
+  .load-1 .line:nth-last-child(2) {animation: loadingA 1.5s .5s infinite;}
+  .load-1 .line:nth-last-child(3) {animation: loadingA 1.5s 0s infinite;}
+  
+  @keyframes loadingA {
+    0 {height: 35px;}
+    50% {height: 55px;}
+    100% {height: 35px;}
+  }
+  img {
+    max-width: 100%;
+    max-height: 100%;
+    border: 1px solid rgb(51, 54, 56);
+    border-radius: 10px;
+  }
+  img:hover {
+    background-color:white;
+    opacity:0.3;
+    transition: 500ms;
+    transform: scale(1.03);
+  }
+  .chartIMG {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #playBar {
+    background: rgb(51, 54, 56);
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    height: 80px;
+  }  
+  body {
+    overscroll-behavior-y: none;
+    background-color: rgb(3, 41, 64);
+  }
+  .side-link, .album-songs-title, .album-songs-title:hover, .chartName {
+    position: relative;
+    text-decoration:none;
+    color: white;
+  }
+  #player {
+    position: fixed;
+    bottom: 90px;
+    left: 15px;
+    z-index: 999;
+  }
+  #player:hover {
+    width: 450px;
+    height: 270px;
+    transition: 80ms;
+  }
+  .icon {
+    color: white;
+    margin: 0 20px;
+  }
+  .icon:hover {
+    color: rgb(245, 231, 40);
+    transition: 300ms;
+  }
+  #play {
+    font-size: 35px;
+  }
+  #play:hover {
+    transform: scale(1.07);
+  }
+  .play-icon {
+    height: 100%;
+    display:  flex;
+    align-items: center;
+    justify-content:  center;
+  }
+  #sidebar {
+    background: rgb(25, 28, 31);
+    position: fixed;
+    left: 0;
+    width: 230px;
+    height: 100vh;
+    color: white;
+  }
+  .side-title {
+    font-size: 32px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+  }
+  .side-content {
+    color: rgb(231, 231, 233);
+    font-size: 20px;
+  }
+  .side-link:hover, .chartName:hover {
+    text-decoration: none;
+    color: white;
+    transition: 300ms;
+    opacity:0.8;
+  }
+  .side-link::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    width: 100%;
+    height: 2px;
+    background-color: rgb(245, 231, 40);
+    transform-origin: center;
+    transform: translate(-50%, 0) scaleX(0);
+    transition: transform 0.3s ease-in-out;
+  }
+  .chartName::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -8px;
+    width: 7rem;
+    height: 2px;
+    background-color: rgb(245, 231, 40);
+    transform-origin: center;
+    transform: translate(-50%, 0) scaleX(0);
+    transition: transform 0.3s ease-in-out;
+  }
+  .side-link:hover::before, .chartName:hover::before {
+    transform: translate(-50%, 0) scaleX(1);
+  }
+  #content {
+    margin-left: 275px;
+    margin-right: 40px;
+    margin-bottom: 100px;
+  }
+  image {
+    max-width: 100px;
+    max-height: 100px;
+  }
+  h2 {
+    color: white;
+    font-family: "微軟正黑體";
+  }
+  .songinfo1 {
+    font-size: 18px;
+    font-family: "微軟正黑體";
+    color: white;
+    margin-bottom: 7px;
+  }
+  .songtotal {
+    margin: 7px 0;
+  }
+  .songinfo2{
+    font-size: 15px;
+    color: rgb(165, 161, 161);
+    font-family: "微軟正黑體";
+  }
+  .songimg {
+    max-width: 80px;
+    max-height: 80px;
+  }
+  .songtotal:hover {
+    cursor:pointer;
+    text-decoration:none;
+    background-color:black;
+    opacity:0.7;
+    transition: 500ms;
+  }
+  .songlink:hover {
+    text-decoration:none;
+  }
+  .songimg {
+    display: flex;
+    top:0;
+  }
+  .albumbtn {
+    margin: 40px 0;
+  }
+  .btn {
+    width: 300px;
+    border-radius: 20px;
+    padding: 5px;
+  }
+  .fa-pause-circle:before {
+    color: rgb(245, 231, 40);
+  }
+  .active {
+    color: rgb(245, 231, 40);
+  }
+  .stochastic {
+    color: rgb(245, 231, 40);
+  }
+  #back {
+    display:none;
+    padding-left: 15px;
+  }
+  #backLink {
+    color: white;
+    font-family: "微軟正黑體";
+    text-decoration:none;
+    font-size: 16px;
+  }
+  .search {
+    width: 200px;
+  }
+
+  .search-hide {
+    display: none;
+  }
+
+  .searchbtn {
+    width: 50px;
+  }
+  @media screen and (max-width: 628px) and (min-width: 320px){
+    .songinfo1 {
+      font-size: 13pt;
+    }
+    .songinfo2 {
+      font-size: 10pt;
+    }
+    #sidebar {
+      display: none;
+    }
+    #content {
+      margin-left: 35px;
+    }
+    .btn {
+      width: 300px;
+    }
+  }
