@@ -49,8 +49,37 @@
     <div id="content" class="album py-5">
       <div id="content2" class="container">
         <h2 class="pt-2 pb-2">精選 KKBOX 最新排行日/週榜 🔥</h2>
-        <div class="row" id="album">
+        <div class="row" id="chart">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-3 px-2 py-4" v-for="itemObj in chart">
+              <div @click.stop="showAlbums(itemObj)" class="album-songs-title">
+                <img :src="itemObj.image" class="chartIMG">
+                <div class="chartName d-flex justify-content-center align-items-center mt-2">{{itemObj.title}}</div>
+              </div>
+            </div>
         </div>
+        <div class="row" id="album">
+            <div class="col-sm-12 col-md-4 pt-3 pl-3 albumimg">
+              <img :src="albumImg">
+              <div class="albumbtn">
+                <button class="col-12 col-sm-12 col-md-12 btn btn-warning btn" type="button" onclick="playSong(0)">全部播放
+                </button>
+              </div>
+            </div>
+            <div class="col-sm-8 col-md-8 pt-3">
+            <div class="row songtotal" v-for="itemObj in album">
+              <div class="my-1 col-sm-3 col-md-8 col-4 songimg">
+                <div @click.stop="playYoutubeVideo(itemObj)">
+                  <img :src="itemObj.songImg">
+                </div>
+              </div>
+              <div class="my-1 col-sm-9 col-md-10 col-8 songinfo">
+                <div @click.stop="playYoutubeVideo(itemObj)" class="songlink">
+                  <h2 class="songinfo1">{{itemObj.songName}}</h2>
+                  <span class="songinfo2">{{itemObj.artistName}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
     </div>
   </main>
@@ -59,11 +88,11 @@
     <div id="player"></div>
     <div id="playBar">
       <div id="barbtn" class="play-icon">
-        <i id="random" class="icon fas fa-random"></i>
-        <i id="prev" class="icon fas fa-step-backward"></i>
-        <i id="play" class="icon far fa-play-circle"></i>
-        <i id="next" class="icon fas fa-step-forward"></i>
-        <i id="repeat" class="icon fas fa-sync-alt"></i>
+        <i @click="randomSong" id="random" class="icon fas fa-random"></i>
+        <i @click="prevSong" id="prev" class="icon fas fa-step-backward"></i>
+        <i @click="playSong" id="play" class="icon far fa-play-circle"></i>
+        <i @click="nextSong" id="next" class="icon fas fa-step-forward"></i>
+        <i @click="repeatSong" id="repeat" class="icon fas fa-sync-alt"></i>
       </div>
     </div>
   </footer>
