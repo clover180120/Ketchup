@@ -66,8 +66,8 @@ function showAlbums(idUrl, imageUrl) {
             window.playYoutubeVideo(itemObj.songName, itemObj.artistName)
           }
         }
-      })
-    
+      });
+    console.log(albums);
       $('#loading').fadeOut(500);
       window.history.pushState(content.innerHTML, null, null);
       let tracks = document.querySelector("#album > div.col-sm-8.col-md-8.pt-3").children;
@@ -137,22 +137,24 @@ function playYoutubeVideo(songName, artistName) {
     }
   }
   for (var i = 0; i < tracks.length; i++) {
-    let songName = tracks[i].querySelector(".songinfo > .songlink > .songinfo1").innerText;
-    if (songinfo == songName) {
+    let songNameClicked = tracks[i].querySelector(".songinfo > .songlink > .songinfo1").innerText;
+    if (songName == songNameClicked) {
       currentSong = i;
     }
   }
 }
 
+function stopVideo() {
+  player.stopVideo();
+}
 
-/* Youtube video refactoring by Vue.js
-var playBar = new Vue({
+let playBar = new Vue({
   el: '#playBar',
   data: {
 
   },
   methods: {
-    playSong: function(i){
+    playOrPauseSong: function(i){
       let state = player.getPlayerState();
       switch (state) {
         case 1:
@@ -189,14 +191,14 @@ var playBar = new Vue({
       }
     },
     repeatSong: function(){
-      repeatbtn.classList.toggle('active');
-      if (repeatbtn.classList.contains('active')) {
+      document.querySelector("#repeat").classList.toggle('active');
+      if (document.querySelector("#repeat").classList.contains('active')) {
         repeatable = true;
       } else {
         repeatable = false;
       }
     },
-    reandomSong: function(){
+    randomSong: function(){
       randombtn.classList.toggle('stochastic');
       if (randombtn.classList.contains('stochastic')) {
         stochastic = true;
@@ -206,7 +208,7 @@ var playBar = new Vue({
     }
   }
 });
-*/
+
 
 /* Youtube Video by Vanilla JS
 let playbtn = document.querySelector("#play");
@@ -215,13 +217,13 @@ let prevbtn = document.querySelector("#prev");
 let repeatbtn = document.querySelector("#repeat");
 let randombtn = document.querySelector("#random");
 
-playbtn.addEventListener('click', playVideo);
+playbtn.addEventListener('click', playOrPauseSong);
 nextbtn.addEventListener('click', nextSong);
 prevbtn.addEventListener('click', prevSong);
 repeatbtn.addEventListener('click', repeatPlay);
 randombtn.addEventListener('click', randomPlay);
 
-function playVideo() {
+function playOrPauseSong() {
   let state = player.getPlayerState();
   switch (state) {
     case 1:
